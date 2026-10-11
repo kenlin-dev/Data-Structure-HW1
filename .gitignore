@@ -1,0 +1,18 @@
+# Visual Studio build output
+x64/
+.vs/
+*.obj
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.idb
+*.tlog
+*.log
+*.recipe
+*.lib
+HW1_mac
+HW1_asan
+*.dSYM/
+.DS_Store
+OpenCV/

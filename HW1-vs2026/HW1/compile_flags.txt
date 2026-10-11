@@ -1,0 +1,4 @@
+-std=c++17
+-I/opt/homebrew/opt/opencv/include/opencv5
+-include
+opencv2/core/utils/logger.hpp
