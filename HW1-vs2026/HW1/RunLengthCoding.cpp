@@ -64,6 +64,8 @@ void RunLengthCoding::EncodeText(const Text &origText, TextEncodeData &encodeDat
         while (j < origText.length && origText.data[i] == origText.data[j])
             j++;
         int runLength = j - i, nDigits = digitCount(runLength);
+        if (writePos + 1 + nDigits > encodedLength)
+            break;
 
         encodeData.data[writePos] = origText.data[i];
         writePos++;
@@ -114,7 +116,7 @@ void RunLengthCoding::DecodeText(const TextEncodeData &encodeData, Text &decodeT
         i++;
         int runLength = readNumber(encodeData.data, i, encodeData.dataLength);
 
-        for (int k = 0; k < runLength; k++)
+        for (int k = 0; k < runLength && writePos < decodeLength; k++)
         {
             decodeText.data[writePos] = ch;
             writePos++;
@@ -160,7 +162,7 @@ void RunLengthCoding::EncodeImage(const cv::Mat &image, ImageEncodeData &encodeD
 
     i = 0;
     int writePos = 0;
-    while (i < nPixels)
+    while (i < nPixels && writePos < numRuns)
     {
         int j = i;
         while (j < nPixels && (rawImageData[i] == rawImageData[j]))
@@ -192,7 +194,7 @@ void RunLengthCoding::DecodeImage(const ImageEncodeData &encodeData, cv::Mat &de
     for (int k = 0; k < encodeData.numData; k++)
     {
         ImageRunLengthData run = encodeData.data[k];
-        for (int i = 0; i < run.count; i++)
+        for (int i = 0; i < run.count && writePos < nPixels; i++)
         {
             decodeData[writePos] = run.value;
             writePos++;
